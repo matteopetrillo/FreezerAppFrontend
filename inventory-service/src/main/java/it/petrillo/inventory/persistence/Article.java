@@ -4,7 +4,7 @@ import it.petrillo.dto.article.ArticleCategory;
 import jakarta.persistence.*;
 
 @Entity
-public class ArticleEntity {
+public class Article {
     @Id
     @SequenceGenerator(
             name = "article_id_sequence",
@@ -20,14 +20,14 @@ public class ArticleEntity {
     @Enumerated(EnumType.STRING)
     private ArticleCategory category;
 
-    public ArticleEntity(Integer id, String name, int quantity, ArticleCategory category) {
+    public Article(Integer id, String name, int quantity, ArticleCategory category) {
         this.id = id;
         this.name = name;
         this.quantity = quantity;
         this.category = category;
     }
 
-    public ArticleEntity() {
+    public Article() {
     }
 
     public void setId(Integer id) {

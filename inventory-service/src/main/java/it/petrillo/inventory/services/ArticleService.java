@@ -1,7 +1,7 @@
 package it.petrillo.inventory.services;
 
 import it.petrillo.dto.article.ArticleDTO;
-import it.petrillo.inventory.persistence.ArticleEntity;
+import it.petrillo.inventory.persistence.Article;
 import it.petrillo.inventory.persistence.ArticleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,15 +12,21 @@ import java.util.Optional;
 @Service
 public class ArticleService {
 
-    @Autowired
-    private ArticleRepository articleRepository;
-    @Autowired
-    private ArticleMapper articleMapper;
+    private final ArticleRepository articleRepository;
+    private final ArticleMapper articleMapper;
 
+    @Autowired
+    public ArticleService(ArticleRepository articleRepository, ArticleMapper articleMapper) {
+        this.articleRepository = articleRepository;
+        this.articleMapper = articleMapper;
+    }
 
-    public ArticleDTO getArticleById(int articleId) {
-        Optional<ArticleEntity> articleOptional = articleRepository.findById(articleId);
-        return articleOptional.map(articleEntity -> articleMapper.toDto(articleEntity)).orElse(null);
+    public ArticleDTO getArticleById(int articleId) throws IllegalArgumentException {
+        Optional<Article> articleOptional = articleRepository.findById(articleId);
+        if (articleOptional.isPresent())
+            return articleOptional.map(articleMapper::toDto).orElse(null);
+        else
+            throw new IllegalArgumentException("Oggetto non presente");
     }
 
     public List<ArticleDTO> getAllArticles() {
@@ -28,7 +34,7 @@ public class ArticleService {
     }
 
     public void insertArticle(ArticleDTO body) {
-        ArticleEntity entity = articleMapper.toEntity(body);
+        Article entity = articleMapper.toEntity(body);
         articleRepository.save(entity);
     }
 

@@ -1,7 +1,7 @@
 package it.petrillo.inventory.services;
 
 import it.petrillo.dto.article.ArticleDTO;
-import it.petrillo.inventory.persistence.ArticleEntity;
+import it.petrillo.inventory.persistence.Article;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -16,23 +16,23 @@ public class ArticleMapper {
     @Autowired
     private ModelMapper modelMapper;
 
-    public ArticleDTO toDto(ArticleEntity articleEntity) {
-        return Objects.isNull(articleEntity) ? null : modelMapper.map(articleEntity, ArticleDTO.class);
+    public ArticleDTO toDto(Article article) {
+        return Objects.isNull(article) ? null : modelMapper.map(article, ArticleDTO.class);
     }
 
-    public ArticleEntity toEntity(ArticleDTO articleDTO) {
-        return Objects.isNull(articleDTO) ? null : modelMapper.map(articleDTO, ArticleEntity.class);
+    public Article toEntity(ArticleDTO articleDTO) {
+        return Objects.isNull(articleDTO) ? null : modelMapper.map(articleDTO, Article.class);
     }
 
-    public List<ArticleDTO> toDtoList(List<ArticleEntity> articleEntityList) {
-        return articleEntityList.stream()
-                .map(articleEntity -> modelMapper.map(articleEntity, ArticleDTO.class))
+    public List<ArticleDTO> toDtoList(List<Article> articleList) {
+        return articleList.stream()
+                .map(article -> modelMapper.map(article, ArticleDTO.class))
                 .collect(Collectors.toList());
     }
 
-    public List<ArticleEntity> toEntityList(List<ArticleDTO> articleDtoList) {
+    public List<Article> toEntityList(List<ArticleDTO> articleDtoList) {
         return articleDtoList.stream()
-                .map(articleDto -> modelMapper.map(articleDto, ArticleEntity.class))
+                .map(articleDto -> modelMapper.map(articleDto, Article.class))
                 .collect(Collectors.toList());
     }
 }
