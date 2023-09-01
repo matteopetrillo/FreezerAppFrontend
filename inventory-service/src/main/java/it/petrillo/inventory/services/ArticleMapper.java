@@ -1,6 +1,6 @@
 package it.petrillo.inventory.services;
 
-import it.petrillo.dto.article.ArticleDTO;
+import it.petrillo.inventory.model.ArticleDTO;
 import it.petrillo.inventory.persistence.Article;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;

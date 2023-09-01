@@ -1,4 +1,4 @@
-package it.petrillo.dto.article;
+package it.petrillo.inventory.model;
 
 public class ArticleDTO {
 

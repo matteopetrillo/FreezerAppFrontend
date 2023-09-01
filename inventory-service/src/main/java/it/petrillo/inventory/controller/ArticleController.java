@@ -1,7 +1,7 @@
 package it.petrillo.inventory.controller;
 
-import it.petrillo.dto.article.ArticleDTO;
-import it.petrillo.inventory.ArticleApplication;
+
+import it.petrillo.inventory.model.ArticleDTO;
 import it.petrillo.inventory.services.ArticleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
