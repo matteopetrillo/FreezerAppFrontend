@@ -8,6 +8,7 @@ spring:
     username: 'root'
     url: jdbc:postgresql://localhost:5432/inventory
     password: 'root'
+
   jpa:
     properties:
       hibernate:
@@ -15,5 +16,4 @@ spring:
         format_sql: 'true'
     hibernate:
       ddl-auto: update
-    show-sql: 'true'
 

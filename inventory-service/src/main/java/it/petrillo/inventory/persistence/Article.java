@@ -1,6 +1,6 @@
 package it.petrillo.inventory.persistence;
 
-import it.petrillo.dto.article.ArticleCategory;
+import it.petrillo.inventory.model.ArticleCategory;
 import jakarta.persistence.*;
 
 @Entity
