@@ -7,45 +7,29 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-import java.util.Map;
+import java.text.SimpleDateFormat;
+import java.util.*;
+
 @Slf4j
 @RestController
 @RequestMapping(path = "api/v1/days")
 public class DailyRentController {
 
-    @Autowired
     private final DailyRentService dailyRentService;
 
+    @Autowired
     public DailyRentController(DailyRentService dailyRentService) {
         this.dailyRentService = dailyRentService;
     }
 
     @GetMapping()
-    @ResponseStatus(HttpStatus.FOUND)
     public List<DailyRent> getAllDailyRents() {
         log.info("Richiesto l'elenco di tutti i giorni");
         return dailyRentService.getAllDailyRents();
     }
 
-    @PostMapping()
-    @ResponseStatus(HttpStatus.CREATED)
-    public void insertDay(@RequestBody DailyRent dailyRent) {
-        log.info("Inserito il giorno: {}", dailyRent);
-        dailyRentService.insertDay(dailyRent);
-    }
-
-    @GetMapping("/list/{year}-{month}-{day}")
-    @ResponseStatus(HttpStatus.FOUND)
-    public Map<Integer,Integer> getRentsByDate(@PathVariable("year") int year,
-                                             @PathVariable("month")int month,
-                                             @PathVariable("day") int day ) {
-        log.info("Richiesta la lista delle prenotazioni per il giorno: "+day+"/"+month+"/"+year);
-        return dailyRentService.getRentsByDate(year,month,day);
-    }
 
     @GetMapping("/{year}-{month}-{day}")
-    @ResponseStatus(HttpStatus.FOUND)
     public DailyRent getDayByDate(@PathVariable("year") int year,
                                   @PathVariable("month")int month,
                                   @PathVariable("day") int day) {
@@ -53,8 +37,17 @@ public class DailyRentController {
         return dailyRentService.getDayByDate(year,month,day);
     }
 
+    @GetMapping("/{year}-{month}-{day}/{year2}-{month2}-{day2}")
+    public List<DailyRent> getDaysByDateRange(@PathVariable("year") int year, @PathVariable("month")int month,
+                                         @PathVariable("day") int day, @PathVariable("year2") int year2,
+                                         @PathVariable("month2") int month2, @PathVariable("day2") int day2 ) {
+        log.info("Richiesta la visione dei giorni per il range da: " + day + "/" + month + "/" + year+" a: "
+                + day2 + "/" + month2 + "/" + year2);
+        return dailyRentService.getDaysByDateRange(year,month,day,year2,month2,day2);
+    }
+
+
     @PutMapping("/add-rents/{year}-{month}-{day}")
-    @ResponseStatus(HttpStatus.OK)
     public void addRentsToDay(@PathVariable("year") int year,
                               @PathVariable("month")int month,
                               @PathVariable("day") int day,
@@ -64,7 +57,6 @@ public class DailyRentController {
     }
 
     @DeleteMapping("/{id}")
-    @ResponseStatus(HttpStatus.OK)
     public void removeDayById(@PathVariable("id") String id) {
         log.info("Eliminato il record con id: "+id);
         dailyRentService.removeById(id);

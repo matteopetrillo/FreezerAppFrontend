@@ -5,9 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class DailyRentService {
@@ -23,22 +21,9 @@ public class DailyRentService {
         return dailyRentRepository.findAll();
     }
 
-    public void insertDay(DailyRent dailyRent) {
-        dailyRentRepository.insert(dailyRent);
-    }
-
     public DailyRent getDayByDate(int year, int month, int day) {
         Optional<DailyRent> dailyRentOptional = dailyRentRepository.getRentsByDate(year,month,day);
         return dailyRentOptional.orElse(null);
-    }
-
-    public Map<Integer,Integer> getRentsByDate(int year, int month, int day) {
-        Optional<DailyRent> dailyRentOptional = dailyRentRepository.getRentsByDate(year,month,day);
-        if (dailyRentOptional.isPresent()) {
-            DailyRent dailyRent = dailyRentOptional.get();
-            return dailyRent.getRents();
-        }
-        return null;
     }
 
     public void addArticlesToRent(int year, int month, int day, Map<Integer, Integer> rentArticles) {
@@ -58,5 +43,33 @@ public class DailyRentService {
             DailyRent day = new DailyRent(date.getDayOfMonth(), date.getMonthValue(), date.getYear());
             dailyRentRepository.save(day);
         }
+    }
+
+    public List<DailyRent> getDaysByDateRange(int year, int month, int day, int year2, int month2, int day2) {
+        List<DailyRent> dailyRents = new ArrayList<>();
+
+        Date startDate = createNewDate(year, month, day);
+        Date endDate = createNewDate(year2, month2, day2);
+
+        Calendar rentCalendar = Calendar.getInstance();
+        rentCalendar.setTime(startDate);
+
+        while (!rentCalendar.getTime().after(endDate)) {
+            int tmpYear = rentCalendar.get(Calendar.YEAR);
+            int tmpMonth = rentCalendar.get(Calendar.MONTH) + 1;
+            int tmpDay = rentCalendar.get(Calendar.DAY_OF_MONTH);
+
+            dailyRents.add(getDayByDate(tmpYear,tmpMonth,tmpDay));
+
+            rentCalendar.add(Calendar.DATE, 1);
+        }
+
+        return dailyRents;
+    }
+
+    private Date createNewDate(int year, int month, int day) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(year, month - 1, day);
+        return calendar.getTime();
     }
 }

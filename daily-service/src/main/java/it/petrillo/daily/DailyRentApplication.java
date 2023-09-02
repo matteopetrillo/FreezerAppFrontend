@@ -16,11 +16,4 @@ public class DailyRentApplication {
     public static void main(String[] args) {
         SpringApplication.run(DailyRentApplication.class,args);}
 
-    @Bean
-    public ModelMapper modelMapper() {
-        return new ModelMapper();
-    }
-
-
-
 }
