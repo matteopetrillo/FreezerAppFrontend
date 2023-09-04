@@ -7,11 +7,14 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="daily-service" />
+        <module name="shared-dto-library" />
         <module name="inventory-service" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="booking-service" target="17" />
+      <module name="daily-service" target="17" />
+      <module name="production-service" target="17" />
       <module name="shared-library" target="17" />
     </bytecodeTargetLevel>
   </component>

@@ -14,18 +14,11 @@ services:
     networks:
       - postgres
     restart: unless-stopped
-
-  mongodb:
-    image: mongo:latest
-    container_name: mongodb
-    ports:
-      - "27017:27017"
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: root
-    volumes:
-      - mongo-data:/mongo-data
-
+    healthcheck:
+      test: [ "CMD", "pg_isready", "-U", "root" ]
+      interval: 10s
+      timeout: 5s
+      retries: 3
 
   pgadmin:
     image: dpage/pgadmin4:latest
@@ -41,13 +34,25 @@ services:
       - postgres
     restart: unless-stopped
 
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb
+    restart: always
+    ports:
+      - 27017:27017
+    volumes:
+      - mongodb_data:/data/db
+    healthcheck:
+      test: [ "CMD", "mongo", "--eval", "db.runCommand({ping: 1})" ]
+      interval: 1m
+      timeout: 5s
+      retries: 3
+
 networks:
-  mongodbnetwork:
-    driver: bridge
   postgres:
     driver: bridge
 
 volumes:
   postgres-data:
   pgadmin-data:
-  mongo-data: {}
+  mongodb_data: {}
