@@ -1,0 +1,15 @@
+server:
+  port: 8081
+
+spring:
+  application:
+    name: production-service
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database: prod
+      authentication-database: admin
+      username: root
+      password: root
+

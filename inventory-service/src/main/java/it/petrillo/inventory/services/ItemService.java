@@ -9,10 +9,9 @@ import it.petrillo.inventory.model.dao.ItemDAO;
 import it.petrillo.inventory.model.dao.ItemRentedDAO;
 import it.petrillo.inventory.model.mapper.ItemMapper;
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.time.LocalDate;
 import java.util.HashMap;
@@ -27,12 +26,24 @@ public class ItemService {
     private ItemDAO itemDAO;
     private ItemRentedDAO itemRentedDAO;
 
+    /**
+     * Get all items.
+     *
+     * @return A list of `ItemDto` objects.
+     */
     public List<ItemDto> getItems() {
         return itemDAO.findAll().stream()
-                .map(item -> ItemMapper.getInstance().toItemDto(item))
+                .map(ItemMapper::toItemDto)
                 .toList();
     }
 
+    /**
+     * Get items filtered by date range.
+     *
+     * @param start The start date.
+     * @param end The end date.
+     * @return A list of `ItemFilteredDto` objects.
+     */
     public List<ItemFilteredDto> getDateFilteredItems(LocalDate start, LocalDate end) {
         List<ItemRented> itemRenteds = itemRentedDAO.findByDateRange(start,end);
         List<Item> items = itemDAO.findAll();
@@ -53,16 +64,32 @@ public class ItemService {
         for (Item item : items) {
             int quantities = availableQuantities.get(item.getId());
             if (quantities > 0)
-                itemFilteredDtos.add(ItemMapper.getInstance().toItemFilteredDto(item,quantities));
+                itemFilteredDtos.add(ItemMapper.toItemFilteredDto(item,quantities));
         }
 
         return itemFilteredDtos;
 
     }
 
+    /**
+     * Get all rented items.
+     *
+     * @return A list of `ItemRentedDto` objects.
+     */
     public List<ItemRentedDto> getAllRentedItems() {
         return itemRentedDAO.findAll().stream()
-                .map(item -> ItemMapper.getInstance().toItemRentedDto(item))
+                .map(ItemMapper::toItemRentedDto)
                 .toList();
     }
+
+    public ResponseEntity<Long> rentItem (ItemRentedDto dto) throws IllegalArgumentException {
+        Optional<Item> itemOptional = itemDAO.findById(dto.getItemId());
+        if (itemOptional.isEmpty())
+            throw new IllegalArgumentException("L'item selezionato non è corretto");
+        dto.setItemName(itemOptional.get().getName());
+        ItemRented itemRented = itemRentedDAO.save(ItemMapper.toItemRented(dto,itemOptional.get()));
+        return ResponseEntity.ok(itemRented.getId());
+    }
+
+
 }

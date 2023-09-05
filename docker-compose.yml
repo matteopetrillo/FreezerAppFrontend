@@ -35,24 +35,24 @@ services:
     restart: unless-stopped
 
   mongodb:
-    image: mongo:latest
+    image: mongo
     container_name: mongodb
-    restart: always
     ports:
-      - 27017:27017
+      - '27017:27017'
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=root
     volumes:
-      - mongodb_data:/data/db
-    healthcheck:
-      test: [ "CMD", "mongo", "--eval", "db.runCommand({ping: 1})" ]
-      interval: 1m
-      timeout: 5s
-      retries: 3
+      - mongo:/data
+
 
 networks:
   postgres:
     driver: bridge
 
+
 volumes:
   postgres-data:
   pgadmin-data:
-  mongodb_data: {}
+  mongo: {}
+

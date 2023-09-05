@@ -1,13 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="rent@localhost" uuid="4a55c554-68d3-4973-8319-8426712a0631">
-      <driver-ref>postgresql</driver-ref>
-      <synchronize>true</synchronize>
-      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
-      <jdbc-url>jdbc:postgresql://localhost:5432/rent</jdbc-url>
-      <working-dir>$ProjectFileDir$</working-dir>
-    </data-source>
     <data-source source="LOCAL" name="inventory@localhost" uuid="30dcb321-ec53-4b22-8a65-15ca6c79176f">
       <driver-ref>postgresql</driver-ref>
       <synchronize>true</synchronize>

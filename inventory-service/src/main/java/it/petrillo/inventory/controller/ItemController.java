@@ -8,10 +8,8 @@ import it.petrillo.inventory.model.ItemRented;
 import it.petrillo.inventory.services.ItemService;
 import lombok.AllArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -42,5 +40,8 @@ public class ItemController {
         return itemService.getAllRentedItems();
     }
 
-
+    @PostMapping("/new-rent")
+    public ResponseEntity<Long> rentItem (@RequestBody ItemRentedDto dto) {
+        return itemService.rentItem(dto);
+    }
 }

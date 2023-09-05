@@ -8,10 +8,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class ItemDto {
-    private Long id;
-    private String name;
-    private String category;
-    private Integer totalQuantity;
-
+public class ItemRentedBasicDto {
+    private Long itemId;
+    private int quantity;
 }

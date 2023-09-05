@@ -8,40 +8,43 @@ import it.petrillo.inventory.model.ItemRented;
 
 public class ItemMapper {
 
-    private static ItemMapper instance;
-
-    public ItemFilteredDto toItemFilteredDto (Item item, int availableQuantities) {
-        ItemFilteredDto dto = new ItemFilteredDto();
-        dto.setId(item.getId());
-        dto.setName(item.getName());
-        dto.setCategory(String.valueOf(item.getItemCategory()));
-        dto.setAvailableQuantity(availableQuantities);
-        return dto;
+    public static ItemFilteredDto toItemFilteredDto (Item item, int availableQuantities) {
+        return new ItemFilteredDto(
+                item.getId(),
+                item.getName(),
+                String.valueOf(item.getItemCategory()),
+                availableQuantities
+        );
     }
 
-    public ItemRentedDto toItemRentedDto (ItemRented item) {
-        ItemRentedDto dto = new ItemRentedDto();
-        dto.setItemId(item.getItem().getId());
-        dto.setItemName(item.getItem().getName());
-        dto.setStartingDate(item.getStartingDate());
-        dto.setEndingDate(item.getStartingDate());
-        dto.setQuantity(item.getQuantity());
-        return dto;
+    public static ItemRentedDto toItemRentedDto (ItemRented item) {
+        return new ItemRentedDto(
+                item.getId(),
+                item.getProduction_id(),
+                item.getItem().getName(),
+                item.getQuantity(),
+                item.getStartingDate(),
+                item.getEndingDate()
+        );
     }
 
-    public ItemDto toItemDto (Item item) {
-        ItemDto dto = new ItemDto();
-        dto.setId(item.getId());
-        dto.setName(item.getName());
-        dto.setCategory(String.valueOf(item.getItemCategory()));
-        dto.setTotalQuantity(item.getItemInventory().getTotalQuantity());
-        return dto;
+    public static ItemDto toItemDto (Item item) {
+        return new ItemDto(
+                item.getId(),
+                item.getName(),
+                String.valueOf(item.getItemCategory()),
+                item.getItemInventory().getTotalQuantity()
+        );
     }
 
-
-    public static ItemMapper getInstance() {
-        if (instance == null)
-            instance = new ItemMapper();
-        return instance;
+    public static ItemRented toItemRented(ItemRentedDto dto, Item item) {
+        return new ItemRented(
+                item,
+                dto.getStartingDate(),
+                dto.getEndingDate(),
+                dto.getProductionId(),
+                dto.getQuantity()
+        );
     }
+
 }
