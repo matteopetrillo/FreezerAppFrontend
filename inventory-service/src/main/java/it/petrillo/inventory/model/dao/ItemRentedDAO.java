@@ -11,7 +11,8 @@ import java.util.List;
 
 public interface ItemRentedDAO extends ListCrudRepository<ItemRented, Long> {
 
-    @Query("SELECT r FROM ItemRented r WHERE r.startingDate BETWEEN :start AND :end")
+    @Query("SELECT r FROM ItemRented r WHERE r.startingDate BETWEEN :start " +
+            "AND :end OR r.endingDate BETWEEN :start AND :end")
     List<ItemRented> findByDateRange(@Param("start") LocalDate startingDate,
                                      @Param("end") LocalDate endingDate);
 }
