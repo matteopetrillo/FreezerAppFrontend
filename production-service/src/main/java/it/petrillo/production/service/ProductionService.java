@@ -14,8 +14,8 @@ import java.util.List;
 @Service
 public class ProductionService {
 
-    private ProductionDAO productionDAO;
-    private RestTemplate restTemplate;
+    private final ProductionDAO productionDAO;
+    private final RestTemplate restTemplate;
 
     public List<Production> getAllProduction() {
         return productionDAO.findAll();

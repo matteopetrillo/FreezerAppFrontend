@@ -23,8 +23,8 @@ import java.util.Optional;
 @Service
 public class ItemService {
 
-    private ItemDAO itemDAO;
-    private ItemRentedDAO itemRentedDAO;
+    private final ItemDAO itemDAO;
+    private final ItemRentedDAO itemRentedDAO;
 
     /**
      * Get all items.
@@ -89,6 +89,13 @@ public class ItemService {
         dto.setItemName(itemOptional.get().getName());
         ItemRented itemRented = itemRentedDAO.save(ItemMapper.toItemRented(dto,itemOptional.get()));
         return ResponseEntity.ok(itemRented.getId());
+    }
+
+    public List<ItemRentedDto> getRentsByProdId (String id) {
+        List<ItemRented> items = itemRentedDAO.findByProductionId(id);
+        return items.stream().
+                map(ItemMapper::toItemRentedDto).
+                toList();
     }
 
 

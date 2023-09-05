@@ -12,7 +12,7 @@ import java.util.List;
 @RequestMapping(path = "/production")
 public class ProductionController {
 
-    private ProductionService productionService;
+    private final ProductionService productionService;
 
     @GetMapping("/all")
     public List<Production> getAllProductions() {

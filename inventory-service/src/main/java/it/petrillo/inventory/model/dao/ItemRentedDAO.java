@@ -6,7 +6,6 @@ import org.springframework.data.repository.ListCrudRepository;
 import org.springframework.data.repository.query.Param;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 public interface ItemRentedDAO extends ListCrudRepository<ItemRented, Long> {
@@ -15,4 +14,7 @@ public interface ItemRentedDAO extends ListCrudRepository<ItemRented, Long> {
             "AND :end OR r.endingDate BETWEEN :start AND :end")
     List<ItemRented> findByDateRange(@Param("start") LocalDate startingDate,
                                      @Param("end") LocalDate endingDate);
+
+    @Query("SELECT i FROM ItemRented i WHERE i.production_id = :prodId")
+    List<ItemRented> findByProductionId(@Param("prodId") String id);
 }

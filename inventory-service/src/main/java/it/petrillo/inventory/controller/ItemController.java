@@ -7,6 +7,7 @@ import it.petrillo.inventory.model.Item;
 import it.petrillo.inventory.model.ItemRented;
 import it.petrillo.inventory.services.ItemService;
 import lombok.AllArgsConstructor;
+import org.springframework.data.repository.query.Param;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,7 +21,7 @@ import java.util.List;
 @RequestMapping(path = "/item")
 public class ItemController {
 
-    private ItemService itemService;
+    private final ItemService itemService;
 
     @GetMapping("/all")
     public List<ItemDto> getItems() {
@@ -41,7 +42,12 @@ public class ItemController {
     }
 
     @PostMapping("/new-rent")
-    public ResponseEntity<Long> rentItem (@RequestBody ItemRentedDto dto) {
+    public ResponseEntity<Long> rentItem(@RequestBody ItemRentedDto dto) {
         return itemService.rentItem(dto);
+    }
+
+    @GetMapping("/rented/by-prod")
+    public List<ItemRentedDto> getRentsByProdId(@RequestParam("prodId") String id) {
+        return itemService.getRentsByProdId(id);
     }
 }
