@@ -3,7 +3,7 @@ server:
 
 spring:
   application:
-    name: inventory-service
+    name: inventory
   datasource:
     username: 'root'
     url: jdbc:postgresql://localhost:5432/inventory
@@ -17,3 +17,9 @@ spring:
     hibernate:
       ddl-auto: update
 
+eureka:
+  client:
+    service-url:
+      defaultZone: http://192.168.50.10:8761/eureka/
+    fetch-registry: true
+    register-with-eureka: true

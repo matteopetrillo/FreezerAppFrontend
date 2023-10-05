@@ -1,9 +1,9 @@
 package it.petrillo.inventory.services;
 
 import it.petrillo.dto.ItemDto;
-import it.petrillo.dto.ItemFilteredDto;
 import it.petrillo.dto.ItemRentedDto;
 import it.petrillo.inventory.model.Item;
+import it.petrillo.inventory.model.ItemAvailableDto;
 import it.petrillo.inventory.model.ItemRented;
 import it.petrillo.inventory.model.dao.ItemDAO;
 import it.petrillo.inventory.model.dao.ItemRentedDAO;
@@ -12,11 +12,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.time.LocalDate;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 @AllArgsConstructor
@@ -42,9 +39,10 @@ public class ItemService {
      *
      * @param start The start date.
      * @param end The end date.
-     * @return A list of `ItemFilteredDto` objects.
+     * @return A list of `ItemAvailableDto` objects.
      */
-    public List<ItemFilteredDto> getDateFilteredItems(LocalDate start, LocalDate end) {
+    public List<ItemAvailableDto> getDateFilteredItems(LocalDate start, LocalDate end) {
+        /*
         List<ItemRented> itemRenteds = itemRentedDAO.findByDateRange(start,end);
         List<Item> items = itemDAO.findAll();
 
@@ -59,7 +57,7 @@ public class ItemService {
                     availableQuantities.get(rentedItem.getItem().getId()) - rentedItem.getQuantity());
         }
 
-        List<ItemFilteredDto> itemFilteredDtos = new ArrayList<>();
+        List<ItemAvailableDto> itemFilteredDtos = new ArrayList<>();
 
         for (Item item : items) {
             int quantities = availableQuantities.get(item.getId());
@@ -68,6 +66,9 @@ public class ItemService {
         }
 
         return itemFilteredDtos;
+
+         */
+        return itemDAO.findItemAvailableDtosByDateRange(start,end);
 
     }
 

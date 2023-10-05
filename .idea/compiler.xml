@@ -11,6 +11,7 @@
         <module name="shared-dto-library" />
         <module name="inventory-service" />
         <module name="production" />
+        <module name="eureka-server" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>

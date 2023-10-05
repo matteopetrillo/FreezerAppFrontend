@@ -2,10 +2,13 @@ package it.petrillo.production;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.client.RestTemplate;
 
 @SpringBootApplication
+@EnableDiscoveryClient
 public class ProductionApplication {
     public static void main(String[] args) {
         SpringApplication.run(ProductionApplication.class,args);
@@ -13,6 +16,7 @@ public class ProductionApplication {
     }
 
     @Bean
+    @LoadBalanced
     public RestTemplate createRestTemplate() {
         return new RestTemplate();
     }

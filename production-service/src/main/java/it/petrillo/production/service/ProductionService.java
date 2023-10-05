@@ -31,7 +31,7 @@ public class ProductionService {
                     production.getStartDate(),
                     production.getEndDate()
             );
-            restTemplate.postForObject("http://localhost:8080/item/new-rent", rentedDto,Long.TYPE);
+            restTemplate.postForObject("http://inventory/item/new-rent", rentedDto,Long.TYPE);
         }
 
         return production.getId();

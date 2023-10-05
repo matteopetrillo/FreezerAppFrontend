@@ -1,21 +1,11 @@
 package it.petrillo.inventory.model.mapper;
 
 import it.petrillo.dto.ItemDto;
-import it.petrillo.dto.ItemFilteredDto;
 import it.petrillo.dto.ItemRentedDto;
 import it.petrillo.inventory.model.Item;
 import it.petrillo.inventory.model.ItemRented;
 
 public class ItemMapper {
-
-    public static ItemFilteredDto toItemFilteredDto (Item item, int availableQuantities) {
-        return new ItemFilteredDto(
-                item.getId(),
-                item.getName(),
-                String.valueOf(item.getItemCategory()),
-                availableQuantities
-        );
-    }
 
     public static ItemRentedDto toItemRentedDto (ItemRented item) {
         return new ItemRentedDto(
